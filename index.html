@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My game</title>
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+
+    <!-- styles.css-->
+    <link rel="stylesheet" href="./src/styles/global.css">
+    <link rel="stylesheet" href="./src/styles/style.css">
+</head>
+
+<body>
+    <main class="main_container">
+        <h2> Jogo da Memoria</h2>
+
+        <div class="menu_timer">
+            <h2 style="margin-right: 2rem;"> Time Left</h2>
+            <h2 id="time-left" ">0</h2>
+        </div>
+
+        <div id="winner" class="youWin "> Você Ganhou!</div>
+        <div class="game">
+
+        </div>
+        <button class="reset" onclick="window.location.reload()"> Resetar Jogo</button>
+    </main>
+
+    <script src="./src/script/engine.js" defer></script>
+</body>
+
+</html>
