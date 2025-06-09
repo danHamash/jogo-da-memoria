@@ -32,7 +32,7 @@ h2 {
     align-items: center;
     width: 1200px;
     margin: 0 auto;
-    gap: 30px;
+    gap: 10px;
     background: linear-gradient(360deg, var(--cor-primaria), var(--cor-secundaria));
 }
 
@@ -178,7 +178,7 @@ h2 {
     }
 
     .game {
-        width: auto;
+        width: 340px;
         height: auto;
     }
 
