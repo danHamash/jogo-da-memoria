@@ -18,6 +18,18 @@ const emojes = [
 ];
 let openCard = [];
 
+const state = {
+  view: {
+    timeLeft: document.querySelector("#time-left"),
+  },
+  values: {
+    currentTimer: 60,
+  },
+  actions: {
+    countDownTimerId: setInterval(countDown, 1000),
+  },
+};
+
 
 let shuffleEmojes = emojes.sort(() => (Math.random() > 0.5) ? 2 : -1);
 
@@ -27,6 +39,17 @@ for (let i = 0; i < emojes.length; i++) {
     box.innerHTML = shuffleEmojes[i];
     box.onclick = handClick;
     document.querySelector(".game").appendChild(box);
+}
+function countDown(){
+  state.values.currentTimer--;
+  state.view.timeLeft.textContent = state.values.currentTimer;
+  
+  if (state.values.currentTimer <= 0) {
+    clearInterval(state.actions.countDownTimerId); // parar contador
+
+    losse.classList.add("show");
+    losse.textContent = "Você Perdeu!";
+  }
 }
 
 function handClick() {
@@ -55,6 +78,7 @@ function checkMatch() {
         const winner = document.getElementById("winner");
         winner.classList.add("show");
         winner.textContent = "Você Ganhou!";
+        clearInterval(state.actions.countDownTimerId);
     }
 }
 

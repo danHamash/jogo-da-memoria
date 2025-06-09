@@ -130,7 +130,7 @@ h2 {
     transform: rotateY(180deg);
 }
 
-.youWin {
+.youWin, .losse {
     background-color: var(--cor-secundaria);
     color: var(--cor-preto);
     font-size: 2rem;
@@ -152,7 +152,7 @@ h2 {
     transform: translate(-50%, -50%);
 }
 
-.youWin.show {
+.youWin.show, .losse.show {
     opacity: 1;
     visibility: visible;
 }
