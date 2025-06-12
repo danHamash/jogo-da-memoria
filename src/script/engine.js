@@ -1,20 +1,21 @@
 const emojes = [
-    "🤢",
-    "🤢",
-    "🤞",
-    "🤞",
-    "👽",
-    "👽",
-    "🤑",
-    "🤑",
-    "🤩",
-    "🤩",
-    "😎",
-    "😎",
-    "😮",
-    "😮",
-    "🤯",
-    "🤯",
+  
+    "src/image/ditto.png",
+    "src/image/ditto.png",
+    "src/image/bulba.png",
+    "src/image/bulba.png",
+    "src/image/char.png",
+    "src/image/char.png",
+    "src/image/squirtle.png",
+    "src/image/squirtle.png",
+    "src/image/pika.png",
+    "src/image/pika.png",
+    "src/image/dratini.png",
+    "src/image/dratini.png",
+    "src/image/jiggly.png",
+    "src/image/jiggly.png",
+    "src/image/chansey.png",
+    "src/image/chansey.png",
 ];
 let openCard = [];
 
@@ -33,12 +34,18 @@ const state = {
 
 let shuffleEmojes = emojes.sort(() => (Math.random() > 0.5) ? 2 : -1);
 
-for (let i = 0; i < emojes.length; i++) {
-    let box = document.createElement("div");
-    box.className = "item";
-    box.innerHTML = shuffleEmojes[i];
-    box.onclick = handClick;
-    document.querySelector(".game").appendChild(box);
+for (let i = 0; i < shuffleEmojes.length; i++) {
+  let box = document.createElement("div");
+  box.className = "item";
+
+  let img = document.createElement("img");
+  img.src = shuffleEmojes[i];
+  img.alt = "emoji image";
+  img.style.width = "100%"; // Ajuste conforme necessário
+  box.appendChild(img);
+
+  box.onclick = handClick;
+  document.querySelector(".game").appendChild(box);
 }
 function countDown(){
   state.values.currentTimer--;
