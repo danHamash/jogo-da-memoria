@@ -7,7 +7,20 @@
     --font-2p: "Press Start 2P", system-ui;
 
 }
-
+/* @font-face {
+    font-family: 'pokemon';
+    src: url('Pokemon Hollow') format('opentype'),
+         url('Pokemon Solid') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'pokemon';
+    src: url('Pokemon Solid.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+*/
 body {
     display: flex;
     justify-content: center;
@@ -39,8 +52,7 @@ h2 {
 .main_container h2 {
     color: var(--cor-preto);
     font-size: 4rem;
-    font-weight: 900;
-    font-style: italic;
+    font-weight: bold;
 }
 
 .menu_timer {
