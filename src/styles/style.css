@@ -26,7 +26,7 @@ body {
     user-select: none;
 }
 
-h2 {
+.menu-title {
   font-size: 4rem;
   font-family: 'pokemon', sans-serif;
   color: var(--cor-pokemon-background);
@@ -57,7 +57,6 @@ h2 {
 }
 .main_container h2 {
     color: var(--cor-pokemon-background);
-    font-size: 4rem;
     font-weight: bold;
 }
 
@@ -186,7 +185,7 @@ h2 {
 }
 
 @media (min-width: 320px) and (max-width: 600px) {
-    h2 {
+    .menu-title {
         text-align: center;
         color: var(--cor-preto);
         font-size: 2.1rem;
@@ -196,18 +195,14 @@ h2 {
         gap: 10px;
     }
 
-    .main_container h2 {
-        text-align: center;
-        margin: 0 auto;
-        font-size: 2.2rem;
-    }
-
     .main_container {
         width: 100%;
     }
 
     .menu_timer h2 {
         font-size: 1rem;
+        font-family: 'pokemon';
+        letter-spacing: 2px;
     }
 
     .game {
