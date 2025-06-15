@@ -51,7 +51,7 @@ function playsound(audioName) {
 
   backgroundAudio.play().then(() => {
     setTimeout(() => {
-      backgroundAudio.volume = 0.1;
+      backgroundAudio.volume = 0.2;
     }, 500);
   }).catch(() => {
     console.warn("Autoplay bloqueado. Som será ativado ao clicar.");
