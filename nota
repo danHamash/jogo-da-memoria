@@ -1,0 +1,7 @@
+preciso implementar o Cronomtro: Html ta pronto. Css ta pronto. falta o JS !
+<!--
+<div class="menu_timer">
+            <h2 style="margin-right: 2rem;"> Time Left</h2>
+            <h2 id="time-left" ">0</h2>
+</div>
+ -->
