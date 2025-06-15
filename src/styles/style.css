@@ -130,7 +130,7 @@ h2 {
     width: 100%;
 }
 .item::after {
-    content: 'pokemon';
+    content: 'Pokemon';
     position: absolute;
     inset: 0;
     background: var(--cor-bg);
@@ -142,6 +142,9 @@ h2 {
     text-align: center;
     font-family: 'pokemon';
     color: #FFCB05;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 
