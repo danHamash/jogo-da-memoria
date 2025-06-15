@@ -10,7 +10,7 @@ const emojes = [
 ];
 
 let openCard = [];
-let backgroundAudio = null; // Agora será usada corretamente
+let backgroundAudio = null;
 
 const state = {
   view: {
@@ -24,10 +24,10 @@ const state = {
   },
 };
 
-// Embaralhar
+// Embaralhar emojis
 let shuffleEmojes = emojes.sort(() => (Math.random() > 0.5 ? 2 : -1));
 
-// Criar cartas
+// Criar as cartas
 for (let i = 0; i < shuffleEmojes.length; i++) {
   let box = document.createElement("div");
   box.className = "item";
@@ -43,22 +43,22 @@ for (let i = 0; i < shuffleEmojes.length; i++) {
   document.querySelector(".game").appendChild(box);
 }
 
-// Tocar áudio ao iniciar
+// Tocar o áudio de fundo
 function playsound(audioName) {
-  backgroundAudio = new Audio(`./src/audio/${audioName}.m4a`); // <- agora está certo
+  backgroundAudio = new Audio(`./src/audio/${audioName}.m4a`);
   backgroundAudio.volume = 0.0;
   backgroundAudio.loop = true;
 
   backgroundAudio.play().then(() => {
     setTimeout(() => {
-      backgroundAudio.volume = 0.1;
+      backgroundAudio.volume = 0.2;
     }, 500);
-  }).catch((err) => {
+  }).catch(() => {
     console.warn("Autoplay bloqueado. Som será ativado ao clicar.");
   });
 }
 
-// Parar áudio
+// Parar som
 function stopSound() {
   if (backgroundAudio) {
     backgroundAudio.pause();
@@ -66,7 +66,7 @@ function stopSound() {
   }
 }
 
-// Timer regressivo
+// Contador regressivo
 function countDown() {
   state.values.currentTimer--;
   state.view.timeLeft.textContent = state.values.currentTimer;
@@ -93,7 +93,7 @@ function handClick() {
   }
 }
 
-// Verifica se há combinação
+// Verificar se as cartas combinam
 function checkMatch() {
   if (openCard[0].innerHTML === openCard[1].innerHTML) {
     openCard[0].classList.add("boxMatch");
@@ -114,8 +114,17 @@ function checkMatch() {
   }
 }
 
-// Início do jogo
+// Início
 window.addEventListener("DOMContentLoaded", () => {
-  playsound("page"); // Inicia som de fundo
+  playsound("page");
+
+  // Se autoplay falhar, ativa ao primeiro clique do usuário
+  document.body.addEventListener("click", () => {
+    if (backgroundAudio && backgroundAudio.paused) {
+      backgroundAudio.play();
+    }
+  }, { once: true });
+
+  // Iniciar o timer
   state.actions.countDownTimerId = setInterval(countDown, 1000);
 });
