@@ -15,9 +15,11 @@ let backgroundAudio = null;
 const state = {
   view: {
     timeLeft: document.querySelector("#time-left"),
+    playerScore: document.querySelector("#player-score"),
   },
   values: {
     currentTimer: 60,
+    currentScore: 0,
   },
   actions: {
     countDownTimerId: null,
@@ -93,15 +95,30 @@ function handClick() {
   }
 }
 
+// pontuação
+function playerScoreCount(isMatch) {
+  if (isMatch) {
+    state.values.currentScore +=5;
+  } else {
+    state.values.currentScore = Math.max(0, state.values.currentScore - 1); // Impede score negativo
+  }
+
+  state.view.playerScore.textContent = state.values.currentScore;
+}
+
 // Verificar se as cartas combinam
 function checkMatch() {
-  if (openCard[0].innerHTML === openCard[1].innerHTML) {
+  const isMatch = openCard[0].innerHTML === openCard[1].innerHTML;
+
+  if (isMatch) {
     openCard[0].classList.add("boxMatch");
     openCard[1].classList.add("boxMatch");
   } else {
     openCard[0].classList.remove("boxOpen");
     openCard[1].classList.remove("boxOpen");
   }
+
+  playerScoreCount(isMatch); // Atualiza score com base no resultado
 
   openCard = [];
 
@@ -110,7 +127,7 @@ function checkMatch() {
     winner.classList.add("show");
     winner.textContent = "Você Ganhou!";
     clearInterval(state.actions.countDownTimerId);
-    stopSound(); // Para o som ao vencer
+    stopSound();
   }
 }
 
