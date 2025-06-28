@@ -1,5 +1,4 @@
 const emojes = [
-  "src/image/ditto.png", "src/image/ditto.png",
   "src/image/bulba-2.png", "src/image/bulba-2.png",
   "src/image/char.png", "src/image/char.png",
   "src/image/squirtle.png", "src/image/squirtle.png",
