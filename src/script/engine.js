@@ -6,6 +6,7 @@ const emojes = [
   "src/image/dratini.png", "src/image/dratini.png",
   "src/image/jiggly.png", "src/image/jiggly.png",
   "src/image/chansey.png", "src/image/chansey.png",
+  "src/image/ditto.png", "src/image/ditto.png"
 ];
 
 let openCard = [];
