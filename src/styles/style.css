@@ -332,6 +332,7 @@ main {
     }
 
     .btn {
+        margin-top: 1rem;
         font-size: .7rem;
         width: 140px;
     }
