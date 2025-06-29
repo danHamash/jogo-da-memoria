@@ -1,16 +1,26 @@
-const emojes = [
-  "src/image/bulba-2.png", "src/image/bulba-2.png",
-  "src/image/char.png", "src/image/char.png",
-  "src/image/squirtle.png", "src/image/squirtle.png",
-  "src/image/pika.png", "src/image/pika.png",
-  "src/image/dratini.png", "src/image/dratini.png",
-  "src/image/jiggly.png", "src/image/jiggly.png",
-  "src/image/chansey.png", "src/image/chansey.png",
-  "src/image/ditto.png", "src/image/ditto.png"
+
+const allEmojes = [
+  "src/image/bulba-2.png",
+  "src/image/char.png",
+  "src/image/squirtle.png",
+  "src/image/pika.png",
+  "src/image/dratini.png",
+  "src/image/jiggly.png",
+  "src/image/chansey.png",
+  "src/image/ditto.png",
+  "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/54.png",
+  "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/32.png",
+  "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/44.png",
+  "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/139.png",
+  "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/199.png",
+  "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/201.png",
+  "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/204.png",
+  "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/207.png",
 ];
 
 let openCard = [];
 let backgroundAudio = null;
+let selectedEmojes = [];
 
 const state = {
   view: {
@@ -26,26 +36,48 @@ const state = {
   },
 };
 
-// Embaralhar emojis
-let shuffleEmojes = emojes.sort(() => (Math.random() > 0.5 ? 2 : -1));
+function startGame(difficulty) {
+  document.getElementById("difficulty-screen").style.display = "none";
+  document.querySelector(".game-container").style.display = "flex";
 
-// Criar as cartas
-for (let i = 0; i < shuffleEmojes.length; i++) {
-  let box = document.createElement("div");
-  box.className = "item";
+  const gameBoard = document.querySelector(".game");
+  gameBoard.className = `game ${difficulty}`;
+  gameBoard.innerHTML = "";
 
-  let img = document.createElement("img");
-  img.src = shuffleEmojes[i];
-  img.alt = "emoji image";
-  img.style.width = "100%";
+  let pairs;
+  switch (difficulty) {
+    case 'easy': pairs = 8; break;
+    case 'medium': pairs = 12; break;
+    case 'hard': default: pairs = allEmojes.length; break;
+  }
 
-  box.appendChild(img);
-  box.onclick = handClick;
+  selectedEmojes = allEmojes.slice(0, pairs);
+  let emojes = [...selectedEmojes, ...selectedEmojes];
+  let shuffleEmojes = emojes.sort(() => Math.random() - 0.5);
 
-  document.querySelector(".game").appendChild(box);
+  shuffleEmojes.forEach(src => {
+    let box = document.createElement("div");
+    box.className = "item";
+
+    let img = document.createElement("img");
+    img.src = src;
+    img.alt = "emoji";
+    img.style.width = "100%";
+
+    box.appendChild(img);
+    box.onclick = handClick;
+
+    gameBoard.appendChild(box);
+  });
+
+  playsound("page");
+  state.values.currentTimer = 60;
+  state.values.currentScore = 0;
+  state.view.timeLeft.textContent = 60;
+  state.view.playerScore.textContent = 0;
+  state.actions.countDownTimerId = setInterval(countDown, 1000);
 }
 
-// Tocar o áudio de fundo
 function playsound(audioName) {
   backgroundAudio = new Audio(`./src/audio/${audioName}.m4a`);
   backgroundAudio.volume = 0.0;
@@ -56,11 +88,10 @@ function playsound(audioName) {
       backgroundAudio.volume = 0.2;
     }, 500);
   }).catch(() => {
-    console.warn("Autoplay bloqueado. Som será ativado ao clicar.");
+    console.warn("Autoplay bloqueado.");
   });
 }
 
-// Parar som
 function stopSound() {
   if (backgroundAudio) {
     backgroundAudio.pause();
@@ -68,7 +99,6 @@ function stopSound() {
   }
 }
 
-// Contador regressivo
 function countDown() {
   state.values.currentTimer--;
   state.view.timeLeft.textContent = state.values.currentTimer;
@@ -76,14 +106,11 @@ function countDown() {
   if (state.values.currentTimer <= 0) {
     clearInterval(state.actions.countDownTimerId);
     stopSound();
-
-    const losse = document.getElementById("losse");
-    losse.classList.add("show");
-    losse.textContent = "Você Perdeu!";
+    document.getElementById("losse").classList.add("show");
+    document.getElementById("losse").textContent = "Você Perdeu!";
   }
 }
 
-// Clique nas cartas
 function handClick() {
   if (openCard.length < 2) {
     this.classList.add("boxOpen");
@@ -95,18 +122,16 @@ function handClick() {
   }
 }
 
-// pontuação
 function playerScoreCount(isMatch) {
   if (isMatch) {
-    state.values.currentScore +=5;
+    state.values.currentScore += 5;
   } else {
-    state.values.currentScore = Math.max(0, state.values.currentScore - 1); // Impede score negativo
+    state.values.currentScore = Math.max(0, state.values.currentScore - 1);
   }
 
   state.view.playerScore.textContent = state.values.currentScore;
 }
 
-// Verificar se as cartas combinam
 function checkMatch() {
   const isMatch = openCard[0].innerHTML === openCard[1].innerHTML;
 
@@ -118,30 +143,21 @@ function checkMatch() {
     openCard[1].classList.remove("boxOpen");
   }
 
-  playerScoreCount(isMatch); // Atualiza score com base no resultado
-
+  playerScoreCount(isMatch);
   openCard = [];
 
-  if (document.querySelectorAll(".boxMatch").length === emojes.length) {
-    const winner = document.getElementById("winner");
-    winner.classList.add("show");
-    winner.textContent = "Você Ganhou!";
+  if (document.querySelectorAll(".boxMatch").length === selectedEmojes.length * 2) {
     clearInterval(state.actions.countDownTimerId);
     stopSound();
+    document.getElementById("winner").classList.add("show");
+    document.getElementById("winner").textContent = "Você Ganhou!";
   }
 }
 
-// Início
 window.addEventListener("DOMContentLoaded", () => {
-  playsound("page");
-
-  // Se autoplay falhar, ativa ao primeiro clique do usuário
   document.body.addEventListener("click", () => {
     if (backgroundAudio && backgroundAudio.paused) {
       backgroundAudio.play();
     }
   }, { once: true });
-
-  // Iniciar o timer
-  state.actions.countDownTimerId = setInterval(countDown, 1000);
 });

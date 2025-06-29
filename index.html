@@ -18,26 +18,27 @@
 </head>
 
 <body>
-    <main class="main_container">
+    <main>
         <h2 class="menu-title"> Jogo da Memoria</h2>
-
-        <div class="menu_timer">
-            <h2 style="margin-right: 2rem;"> Time Left</h2>
-            <h2 id="time-left">60</h2>
+        <div id="difficulty-screen">
+            <h2 class="sub-title difficulty-title">Escolha a Dificuldade</h2>
+            <button class="btn easy" onclick="startGame('easy')">Fácil</button>
+            <button class="btn medium" onclick="startGame('medium')">Médio</button>
+            <button class="btn hard" onclick="startGame('hard')">Difícil</button>
+        </div>
+        <div class="game-container" style="display: none;">
+            <div class="info">
+                <span class="sub-title">Timer: <span id="time-left" class="sub-title">60</span></span>
+                <span class="sub-title">Pontos: <span id="player-score" class="sub-title">0</span></span>
+            </div>
+            <div class="game"></div>
+            <div id="winner" class="youWin"></div>
+            <div id="losse" class="losse"></div>
         </div>
 
-        <div class="menu-score">
-            <h2 style="margin-right: 2rem;">Pontos: </h2>
-            <h2 id="player-score">0</h2>
-        </div>
-
-        <div id="winner" class="youWin"> Você Ganhou!</div>
-        <div id="losse" class="losse" style="background-color: #ff0000;"> Você perdeu!</div>
-        <div class="game">
-
-        </div>
-        <button class="reset" onclick="window.location.reload()"> Resetar Jogo</button>
+        <button class="reset btn" onclick="window.location.reload()"> Resetar Jogo</button>
     </main>
+
 
     <script src="./src/script/engine.js" defer></script>
 </body>
