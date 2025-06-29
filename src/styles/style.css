@@ -243,6 +243,49 @@ main {
     margin-top: 1rem;
 }
 
+.record-list-container {
+  background-color: var(--cor-bg);
+  color: var(--cor-branco);
+  border: 2px solid var(--cor-primaria);
+  border-radius: 12px;
+  padding: 1rem;
+  margin: 1rem auto;
+  width: 300px;
+  height: 400px;
+  font-family: var(--font-2p);
+  text-align: center;
+  text-shadow: 1px 1px 1px black;
+  position: absolute;
+}
+
+.record-list-container h3 {
+  margin-bottom: 1.3rem;
+  color: var(--cor-pokemon-background);
+}
+
+#record-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#record-list li {
+  margin: 5px 0;
+  font-size: 1rem;
+  font-weight: bold;
+}
+#clear-scores{
+    position: absolute;
+    left: 6rem;
+    bottom: 2rem;
+    width: 100px;
+    height: 20px;
+    font-size: .8rem;
+    background-color: #4b48480e;
+    color: var(--cor-branco);
+    border: 1px solid var(--cor-branco);
+    border-radius: 9px;
+}
 @media (min-width: 320px) and (max-width: 600px) {
     .menu-title {
         text-align: center;
@@ -300,5 +343,8 @@ main {
 
     #difficulty-screen {
         margin: 25%;
+    }
+    .record-list-container{
+        width: 290px;
     }
 }

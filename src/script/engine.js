@@ -1,4 +1,3 @@
-
 const allEmojes = [
   "src/image/bulba-2.png",
   "src/image/char.png",
@@ -21,6 +20,7 @@ const allEmojes = [
 let openCard = [];
 let backgroundAudio = null;
 let selectedEmojes = [];
+let currentDifficulty = null;
 
 const state = {
   view: {
@@ -37,8 +37,12 @@ const state = {
 };
 
 function startGame(difficulty) {
+  currentDifficulty = difficulty;
+
   document.getElementById("difficulty-screen").style.display = "none";
   document.querySelector(".game-container").style.display = "flex";
+  document.getElementById("toggle-scores").style.display = "none";
+  document.getElementById("record-list-container").style.display = "none";
 
   const gameBoard = document.querySelector(".game");
   gameBoard.className = `game ${difficulty}`;
@@ -46,16 +50,27 @@ function startGame(difficulty) {
 
   let pairs;
   switch (difficulty) {
-    case 'easy': pairs = 8; break;
-    case 'medium': pairs = 12; break;
-    case 'hard': default: pairs = allEmojes.length; break;
+    case "easy":
+      dificuldadeTraduzida = "Fácil";
+      pairs = 8;
+      break;
+    case "medium":
+      dificuldadeTraduzida = "Média";
+      pairs = 12;
+      break;
+    case "hard":
+      dificuldadeTraduzida = "Difícil";
+      pairs = allEmojes.length;
+      break;
+    default:
+      dificuldadeTraduzida = difficulty;
   }
 
   selectedEmojes = allEmojes.slice(0, pairs);
   let emojes = [...selectedEmojes, ...selectedEmojes];
   let shuffleEmojes = emojes.sort(() => Math.random() - 0.5);
 
-  shuffleEmojes.forEach(src => {
+  shuffleEmojes.forEach((src) => {
     let box = document.createElement("div");
     box.className = "item";
 
@@ -83,13 +98,16 @@ function playsound(audioName) {
   backgroundAudio.volume = 0.0;
   backgroundAudio.loop = true;
 
-  backgroundAudio.play().then(() => {
-    setTimeout(() => {
-      backgroundAudio.volume = 0.2;
-    }, 500);
-  }).catch(() => {
-    console.warn("Autoplay bloqueado.");
-  });
+  backgroundAudio
+    .play()
+    .then(() => {
+      setTimeout(() => {
+        backgroundAudio.volume = 0.2;
+      }, 500);
+    })
+    .catch(() => {
+      console.warn("Autoplay bloqueado.");
+    });
 }
 
 function stopSound() {
@@ -151,8 +169,55 @@ function checkMatch() {
     stopSound();
     document.getElementById("winner").classList.add("show");
     document.getElementById("winner").textContent = "Você Ganhou!";
+
+    salvarPontuacoes(state.values.currentScore, dificuldadeTraduzida);
   }
 }
+
+function salvarPontuacoes(score, difficulty) {
+  let history = JSON.parse(localStorage.getItem("scoreHistory")) || [];
+  history.push({ score, difficulty });
+  history = history.sort((a, b) => b.score - a.score).slice(0, 10);
+  localStorage.setItem("scoreHistory", JSON.stringify(history));
+  mostrarListaDePontuacoes();
+}
+
+function mostrarListaDePontuacoes() {
+  const listaContainer = document.getElementById("record-list");
+  listaContainer.innerHTML = "";
+
+  const history = JSON.parse(localStorage.getItem("scoreHistory")) || [];
+  const ordenado = history.sort((a, b) => b.score - a.score);
+
+  if (ordenado.length === 0) {
+    const li = document.createElement("li");
+    li.textContent = "Nenhuma pontuação registrada ainda.";
+    listaContainer.appendChild(li);
+    return;
+  }
+
+  ordenado.forEach(({ score, difficulty }, index) => {
+    const li = document.createElement("li");
+    li.textContent = `${index + 1}º lugar - ${score} pontos (${difficulty})`;
+    listaContainer.appendChild(li);
+  });
+}
+
+function carregarPontuacoes() {
+  mostrarListaDePontuacoes();
+}
+
+document.getElementById("toggle-scores").addEventListener("click", () => {
+  const container = document.getElementById("record-list-container");
+  const isHidden = container.style.display === "none";
+  container.style.display = isHidden ? "block" : "none";
+  if (isHidden) mostrarListaDePontuacoes();
+});
+
+document.getElementById("clear-scores").addEventListener("click", () => {
+  localStorage.removeItem("scoreHistory");
+  mostrarListaDePontuacoes();
+});
 
 window.addEventListener("DOMContentLoaded", () => {
   document.body.addEventListener("click", () => {
@@ -160,4 +225,7 @@ window.addEventListener("DOMContentLoaded", () => {
       backgroundAudio.play();
     }
   }, { once: true });
+
+  carregarPontuacoes();
+  document.getElementById("toggle-scores").style.display = "inline-block";
 });
