@@ -343,7 +343,7 @@ main {
     }
 
     #difficulty-screen {
-        margin: 10%;
+        margin-top: 10px;
     }
     .record-list-container{
         width: 290px;
